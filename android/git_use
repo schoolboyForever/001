@@ -1,0 +1,3 @@
+git下载下来但是提交不上去？
+将.git/config的url
+由https://github.com/a/b.git修改为https://name@github.com/a/b.git
