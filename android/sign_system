@@ -1,0 +1,10 @@
+如何签名成系统应用？
+AndroidManifest.xml中的manifest加入android:sharedUserId="android.uid.system"
+在安卓源码的android\build\target\product\security目录下找到platform.x509.pem 和platform.pk8
+java -jar signapk.jar platform.x509.pem platform.pk8 a.apk a_signed.apk
+
+如何生成系统的keystore？
+linux系统
+openssl pkcs8 -inform DER -nocrypt -in platform.pk8 -out platform.pem
+openssl pkcs12 -export -in platform.x509.pem -out platform.p12 -inkey platform.pem -password pass:android -name androiddebugkey
+keytool -importkeystore -deststorepass android -destkeystore ./platform.keystore -srckeystore platform.p12 -srcstoretype PKCS12 -srcstorepass android

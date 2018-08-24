@@ -1,0 +1,14 @@
+View绘制
+三个步骤，顺序是：onMeasure，onLayout，onDraw
+
+invalidate
+适用于内容变化大小不变，会调用onDraw
+
+requestLayout
+适用于大小变化内容不变，会调用onMeasure，onLayout
+
+如果大小内容都变化
+先调用requestLayout再调用invalidate
+
+postInvalidate
+invalidate用于UI线程，在非UI线程用这个
