@@ -1,0 +1,25 @@
+volley重试时间怎么算
+设置超时时间10s，重试2次，系数2
+请求，10*2=20s后超时，请求2，10+10*2=30s后超时,请求3,30+30*2=90s后超时
+
+HurlStack中openConnection中
+connectTimeOut为10
+readTimeOut为10
+所以超时为20
+但是出现超时后，第二次会优化，只考虑connectTimeOut，为10
+出现连接正常后，会撤销优化，超时为20
+
+DefaultRetryPolicy中retry中
+mCurrentTimeoutMs += (mCurrentTimeoutMs * mBackoffMultiplier);
+所以超时时间为10，系数为1
+第1次重试，过10+10*1=20后超时
+第2次重试，过20+20*1=40后超时
+
+重试次数设置0
+超时时间为10*2或者10
+
+connectTimeOut和readTimeOut
+在volley中二者设置一样大小
+connectTimeOut连接超时时间
+readTimeOut服务器响应时间
+一般网络不错，connectTimeOut小于readTimeOut，这个看实际用户场景
